@@ -14,6 +14,9 @@
       package:
         name: ['tmpreaper']
       when: ansible_os_family == 'Debian'
+    - git:
+        repo: 'https://github.com/usegalaxy-eu/libraries-training-repo.git'
+        dest: /libraries/
   roles:
     - galaxyproject.postgresql
     - role: galaxyproject.postgresql_objects
