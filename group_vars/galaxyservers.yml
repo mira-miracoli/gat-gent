@@ -18,6 +18,8 @@ galaxy_job_config:
     local_runner:
       load: galaxy.jobs.runners.local:LocalJobRunner
       workers: 4
+    condor:
+      load: galaxy.jobs.runners.condor:CondorJobRunner
   handling:
     assign: ['db-skip-locked']
   execution:
