@@ -43,6 +43,7 @@
     - galaxyproject.nginx
     - galaxyproject.gxadmin
     - galaxyproject.cvmfs
+    - usegalaxy_eu.htcondor
   post_tasks:
     - name: Setup gxadmin cleanup task
       ansible.builtin.cron:
