@@ -1,4 +1,4 @@
 [galaxyservers]
-gat-38.eu.galaxy.training ansible_connection=local ansible_user=ubuntu
+galaxy-test.flyingrabb.it ansible_connection=local ansible_user=centos
 [dbservers:children]
 galaxyservers
