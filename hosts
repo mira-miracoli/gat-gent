@@ -1,4 +1,4 @@
 [galaxyservers]
-galaxy-test.flyingrabb.it ansible_connection=local ansible_user=centos
+flyingrabb.it ansible_connection=local ansible_user=centos
 [dbservers:children]
 galaxyservers

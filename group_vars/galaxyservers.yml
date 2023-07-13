@@ -1,7 +1,7 @@
 # Galaxy
 galaxy_create_user: true
 galaxy_separate_privileges: true
-galaxy_manage_paths: true
+galaxy_manage_paths: false
 galaxy_manage_cleanup: true
 galaxy_layout: root-dir
 galaxy_root: /srv/galaxy
@@ -31,15 +31,10 @@ galaxy_job_config:
       condor:
         runner: condor
         tmp_dir: true
-        metadata_strategy: 'extended'
         request_cpus: 2
         request_memory: 2G
         docker_memory: 2G
         env:
-        - name: GALAXY_MEMORY_MB
-          value: "{MEMORY_MB}"
-        - name: GALAXY_SLOTS
-          value: "{PARALLELISATION}"
         - name: LC_ALL
           value: C
       condor_singularity:
@@ -53,50 +48,54 @@ galaxy_job_config:
         singularity_enabled: true
         singularity_default_container_id: "/cvmfs/singularity.galaxyproject.org/u/b/ubuntu:18.04"
         env:
-        # Ensuring a consistent collation environment is good for reproducibility.
-        - name: GALAXY_MEMORY_MB
-          value: "{MEMORY_MB}"
-        - name: GALAXY_SLOTS
-          value: "{PARALLELISATION}"
-        - name: LC_ALL
-          value: C
-        # The cache directory holds the docker containers that get converted
-        - name: APPTAINER_CACHEDIR
-          value: /data/dnb-test/singularity
-        # Apptainer uses a temporary directory to build the squashfs filesystem
-        - name: APPTAINER_TMPDIR
-          value: /data/dnb-test/tmp
-  tools:
-      local_env:
-        runner: local_runner
-        tmp_dir: true
-      singularity:
-        runner: condor
-        singularity_enabled: true
-        env:
-        # Ensuring a consistent collation environment is good for reproducibility.
-        - name: LC_ALL
-          value: C
-        # The cache directory holds the docker containers that get converted
-        - name: APPTAINER_CACHEDIR
-          value: /data/dnb-test/singularity
-        # Apptainer uses a temporary directory to build the squashfs filesystem
-        - name: APPTAINER_TMPDIR
-          value: /data/dnb-test/tmp
+          # Ensuring a consistent collation environment is good for reproducibility.
+          - name: GALAXY_MEMORY_MB
+            value: "{MEMORY_MB}"
+          - name: GALAXY_SLOTS
+            value: "{PARALLELISATION}"
+          - name: LC_ALL
+            value: C
+          # The cache directory holds the docker containers that get converted
+          - name: APPTAINER_CACHEDIR
+            value: /data/dnb-test/singularity
+          # Apptainer uses a temporary directory to build the squashfs filesystem
+          - name: APPTAINER_TMPDIR
+            value: /data/dnb-test/tmp
+            #  tools:
+            #    local_env:
+            #      runner: local_runner
+            #      tmp_dir: true
+            #    singularity:
+            #      runner: condor
+            #      singularity_enabled: true
+            #      env:
+            #      # Ensuring a consistent collation environment is good for reproducibility.
+            #        - name: LC_ALL
+            #          value: C
+            #        # The cache directory holds the docker containers that get converted
+            #        - name: APPTAINER_CACHEDIR
+            #          value: /data/dnb-test/singularity
+            #        # Apptainer uses a temporary directory to build the squashfs filesystem
+            #        - name: APPTAINER_TMPDIR
+            #          value: /data/dnb-test/tmp
   
 galaxy_config:
   galaxy:
     # Branding
     brand: Venus ♀
     logo_src: "https://assets.rebelmouse.io/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpbWFnZSI6Imh0dHBzOi8vYXNzZXRzLnJibC5tcy80MTY4MzAwL29yaWdpbi5qcGciLCJleHBpcmVzX2F0IjoxNzE0MjUzNDA0fQ.c58VjUVj6KZ5TVDUtKgkwPPhvSSLP_ZS_IKf0Rk9fFA/img.jpg?width=980&quality=85"
-    themes_config_file: "{{ galaxy_config_dir }}/themes.yml"
+    #themes_config_file: "{{ galaxy_config_dir }}/themes.yml"
+    # themes_config_file_by_host:
+    #   flyingrabb.it: themes.yml
     # Main Configuration
     admin_users:
-    - kuntzm@informatik.uni-freiburg.de
+      - kuntzm@informatik.uni-freiburg.de
     database_connection: "postgresql:///{{ galaxy_db_name }}?host=/var/run/postgresql"
     file_path: /data
     tool_data_path: "{{ galaxy_mutable_data_dir }}/tool-data"
     job_config: "{{ galaxy_job_config }}"
+    job_working_directory: /data/dnb-test/job_work_dir
+    object_store_config_file: "{{ galaxy_config_dir }}/object_store_conf.xml"
     # SQL Performance
     slow_query_log_threshold: 5
     enable_per_request_sql_debugging: true
@@ -161,8 +160,10 @@ galaxy_config_files_public:
     dest: "{{ galaxy_mutable_config_dir }}/welcome.html"
 galaxy_config_files:
   - src: files/galaxy/themes.yml
-    dest: "{{ galaxy_config.galaxy.themes_config_file }}"
+    dest: "{{ galaxy_config_dir }}/themes.yml"
 galaxy_config_templates:
+  - src: templates/galaxy/config/object_store_conf.xml.j2
+    dest: "{{ galaxy_config.galaxy.object_store_config_file }}"
   - src: templates/galaxy/config/container_resolvers_conf.yml.j2
     dest: "{{ galaxy_config.galaxy.containers_resolvers_config_file }}"
   - src: templates/galaxy/config/dependency_resolvers_conf.xml
@@ -183,7 +184,8 @@ certbot_share_key_users:
 certbot_post_renewal: |
     systemctl restart nginx || true
 certbot_domains:
- - "{{ inventory_hostname }}"
+  - "flyingrabb.it"
+  - "barbenheimer.flyingrabb.it"
 certbot_agree_tos: --agree-tos
 
 # NGINX
@@ -227,10 +229,10 @@ galaxy_tus_upload_store: /data/tus
 
 # HTCondor
 condor_package_label: condor-all-8.8.15
-condor_host: "galaxy-test.flyingrabb.it"
+condor_host: "192.168.2.154"
 condor_fs_domain: galaxy-test.flyingrabb.it
 condor_uid_domain: galaxy-test.flyingrabb.it
-condor_allow_write: "192.268.2.0/24"
+condor_allow_write: "192.168.2.0/24, $(CONDOR_HOST), *"
 condor_daemons:
   - COLLECTOR
   - NEGOTIATOR
@@ -241,7 +243,7 @@ condor_allow_administrator: "$(ALLOW_NEGOTIATOR)"
 
 condor_system_periodic_hold: "{{ 30 * 24 * 60 * 60 }}"
 condor_system_periodic_remove: "{{ 2 * 24 * 60 * 60 }}"
-condor_network_interface: eth0
+condor_network_interface: eth1
 condor_extra: |
   MASTER_UPDATE_INTERVAL = 150
   CLASSAD_LIFETIME = 300
@@ -252,3 +254,6 @@ condor_extra: |
   JOB_START_DELAY = 0
   CLAIM_WORKLIFE = 120
   NEGOTIATOR_POST_JOB_RANK = isUndefined(RemoteOwner) * (10000 - TotalLoadAvg)
+
+themes_conf_path: files/galaxy/themes.yml
+themes_files: "{{ lookup('fileglob', 'files/galaxy/themes/*.yml', wantlist=True) }}"

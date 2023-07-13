@@ -1,3 +1,8 @@
+barbenheimer:
+  masthead:
+    color: >
+      linear-gradient(90deg, #6B4E53ff, #C76027ff, #922D0Fff, #D05A96ff, #3FBECDff)
+# BEGIN ANSIBLE MANAGED BLOCK
 europe:
   masthead:
     color: "#003399"
@@ -25,3 +30,4 @@ smoky:
       color: transparent
       hover: transparent
       active: "#FF206E"
+# END ANSIBLE MANAGED BLOCK
