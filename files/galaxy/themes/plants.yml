@@ -1,0 +1,36 @@
+plants:
+  masthead:
+    color: >
+      linear-gradient(90deg,
+        #1a5d1a 0%,
+        #369c36 50%,
+        rgb(29 95 28) 100%)
+# BEGIN ANSIBLE MANAGED BLOCK
+europe:
+  masthead:
+    color: "#003399"
+
+lightblue:
+  masthead:
+    color: "#384E77"
+    text:
+      color: white
+      hover: "#E6F9AF"
+      active: white
+    link:
+      color: transparent
+      hover: transparent
+      active: "#18314F"
+
+smoky:
+  masthead:
+    color: "#0C0F0A"
+    text:
+      color: white
+      hover: "#FBFF12"
+      active: white
+    link:
+      color: transparent
+      hover: transparent
+      active: "#FF206E"
+# END ANSIBLE MANAGED BLOCK
