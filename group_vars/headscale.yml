@@ -1,0 +1,52 @@
+headscale_config:
+  server_url: https://headscale.flyingrabb.it
+  listen_addr: 0.0.0.0:8080
+  metrics_listen_addr: 0.0.0.0:9090
+  grpc_listen_addr: 127.0.0.1:50443
+  grpc_allow_insecure: false
+  private_key_path: /etc/headscale/private.key
+  noise:
+      private_key_path: /etc/headscale/noise_private.key
+  ip_prefixes:
+  - 100.64.0.0/10
+  derp:
+      server:
+          enabled: false
+          region_id: 999
+          region_code: headscale
+          region_name: Headscale Embedded DERP
+          stun_listen_addr: 0.0.0.0:3478
+      urls:
+      - https://controlplane.tailscale.com/derpmap/default
+      paths: []
+      auto_update_enabled: true
+      update_frequency: 24h
+  disable_check_updates: false
+  ephemeral_node_inactivity_timeout: 30m
+  node_update_check_interval: 10s
+  db_type: sqlite3
+  db_path: /etc/headscale/db.sqlite
+  acme_url: https://acme-v02.api.letsencrypt.org/directory
+  acme_email: ''
+  tls_letsencrypt_hostname: ''
+  tls_letsencrypt_cache_dir: ./cache
+  tls_letsencrypt_challenge_type: HTTP-01
+  tls_letsencrypt_listen: :http
+  tls_cert_path: ''
+  tls_key_path: ''
+  log:
+      format: text
+      level: info
+  acl_policy_path: ''
+  dns_config:
+      override_local_dns: true
+      nameservers:
+      - 132.230.200.200
+      - 132.230.201.111
+      domains: []
+      magic_dns: true
+      base_domain: flyingrabb.it
+  logtail:
+      enabled: false
+  randomize_client_port: false
+headscale_acl: ""

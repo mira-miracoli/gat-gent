@@ -2,3 +2,5 @@
 flyingrabb.it ansible_connection=local ansible_user=centos
 [dbservers:children]
 galaxyservers
+[headscale:children]
+galaxyservers

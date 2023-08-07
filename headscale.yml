@@ -1,0 +1,6 @@
+---
+- name: Headscale
+  hosts: headscale
+  become: true
+  roles:
+    - usegalaxy_eu.headscale

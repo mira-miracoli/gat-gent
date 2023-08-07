@@ -1,5 +1,6 @@
-- src: galaxyproject.galaxy
-  version: 0.10.14
+- name: galaxyproject.galaxy
+  version: themes
+  src: https://github.com/mira-miracoli/ansible-galaxy
 - src: galaxyproject.nginx
   version: 0.7.1
 - src: galaxyproject.postgresql
@@ -23,3 +24,12 @@
   version: 0.0.1
 - src: usegalaxy_eu.htcondor
   version: 2.2.0
+- name: usegalaxy_eu.subdomains
+  src: https://github.com/mira-miracoli/ansible-galaxy-subdomains
+  version: galaxy-sided
+- src: geerlingguy.docker
+  version: 6.1.0
+- src: usegalaxy_eu.rabbitmqserver
+  version: 1.4.4
+- src: galaxyproject.pulsar
+  version: 1.0.10

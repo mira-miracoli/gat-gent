@@ -37,12 +37,13 @@
           # - galaxyproject.tusd
     - usegalaxy_eu.apptainer
     - galaxyproject.galaxy
-    - usegalaxy_eu.themes
     - role: galaxyproject.miniconda
       become: true
       become_user: "{{ galaxy_user_name }}"
     - galaxyproject.nginx
-      #    - usegalaxy_eu.certbot
+    - usegalaxy_eu.certbot
+    - geerlingguy.docker
+    - usegalaxy_eu.rabbitmqserver
     - galaxyproject.gxadmin
     - galaxyproject.cvmfs
     - usegalaxy_eu.htcondor
