@@ -17,6 +17,17 @@
     - git:
         repo: 'https://github.com/usegalaxy-eu/libraries-training-repo.git'
         dest: /libraries/
+    - name: Edit Firewalld
+      ansible.posix.firewalld:
+        port: "{{ item }}"
+        permanent: true
+        state: enabled
+      with_items:
+        - "80/tcp"
+        - "443/tcp"
+        - "5672/tcp"
+        - "9618/tcp"
+
   roles:
     - galaxyproject.postgresql
     - role: galaxyproject.postgresql_objects
@@ -32,7 +43,7 @@
   pre_tasks:
     - name: Install Dependencies
       package:
-        name: ['acl', 'bzip2', 'git', 'make', 'tar', 'python3-venv', 'python3-setuptools']
+        name: ['acl', 'bzip2', 'git', 'make', 'tar']
   roles:
     - galaxyproject.tusd
     - usegalaxy_eu.apptainer
