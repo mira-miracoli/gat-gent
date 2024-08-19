@@ -2,10 +2,15 @@
 # PostgreSQL
 postgresql_objects_users:
   - name: "{{ galaxy_user_name }}"
+    password: shrubbery
 postgresql_objects_databases:
   - name: "{{ galaxy_db_name }}"
     owner: "{{ galaxy_user_name }}"
   
+postgresql_conf:
+  - listen_addresses: "'*'"
+postgresql_pg_hba_conf:
+  - host all all 100.64.0.0/10 md5
 # PostgreSQL Backups
 postgresql_backup_dir: /data/backups
 postgresql_backup_local_dir: "{{ '~postgres' | expanduser }}/backups"

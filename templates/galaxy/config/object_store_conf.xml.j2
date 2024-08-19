@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<object_store type="distributed">
+    <backends>
+        <backend id="newdata" type="disk" weight="1">
+            <files_dir path="/data2"/>
+            <extra_dir type="job_work" path="/data2/jwd"/>
+        </backend>
+        <backend id="olddata" type="disk" weight="1">
+            <files_dir path="/data"/>
+            <extra_dir type="job_work" path="/data/jwd01"/>
+        </backend>
+    </backends>
+</object_store>
